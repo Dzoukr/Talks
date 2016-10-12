@@ -1,0 +1,13 @@
+.reveal td {
+  vertical-align:top;
+}
+
+.table-leftcol {
+	padding-right:60px !important;
+	vertical-align: middle !important;
+}
+
+.table-rightcol {
+	padding-left:60px !important;
+	vertical-align: middle !important;
+}
