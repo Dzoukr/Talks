@@ -10,7 +10,7 @@
 
 ## And why should I care?
 
-<br/><br/><br/>
+<br/><br/><br/><br/><br/>
 ### Roman Provazník
 
 [@dzoukr](https://twitter.com/dzoukr) | [@fsharping](https://twitter.com/fsharping) | [fsharping.com](https://fsharping.com)
@@ -414,6 +414,25 @@ let printInt (num:int option) =
 [F# for fun & profit](https://fsharpforfunandprofit.com/) - F# Bible (**must read!**)
 
 [TryFSharp.org](http://tryfsharp.com/) - online learning tutorials
+
+***************************************************************************************************
+
+## Conclusion
+
+### F# is **multiparadigm**, **multiplatform** <br/> **.NET** language, which embraces **safety**, <br/>is **easy to read** and **write**,<br/>with having great **community**.
+
+***************************************************************************************************
+
+# Thank you!
+
+## Feel free to ask
+
+<br/><br/><br/><br/><br/>
+### Roman Provazník
+
+[@dzoukr](https://twitter.com/dzoukr) | [@fsharping](https://twitter.com/fsharping) | [fsharping.com](https://fsharping.com)
+
+
 
 
 
