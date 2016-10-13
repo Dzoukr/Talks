@@ -145,12 +145,12 @@ Target "ReleaseSlides" (fun _ ->
         failwith "You need to specify the gitOwner and gitProjectName in build.fsx"
     let tempDocsRoot = __SOURCE_DIRECTORY__ </> "temp/gh-pages"
     let tempDocsDir = tempDocsRoot </> gitSubDir
-    CleanDir tempDocsDir
+    CleanDir tempDocsRoot
     Repository.cloneSingleBranch "" (gitHome + "/" + gitProjectName + ".git") "gh-pages" tempDocsRoot
 
     fullclean tempDocsDir
     CopyRecursive outDir tempDocsDir true |> tracefn "%A"
-    StageAll tempDocsDir
+    StageAll tempDocsRoot
     Git.Commit.Commit tempDocsRoot "Update generated slides"
     Branches.push tempDocsRoot
 )
