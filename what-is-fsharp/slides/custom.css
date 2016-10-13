@@ -1,3 +1,19 @@
+.reveal h1 {
+	color: #d24726;
+}
+
+.reveal strong {
+	color: #1db954;
+}
+
+.reveal a {
+  color:#5b9bd5;
+  text-decoration:none;
+}
+.reveal a:hover {
+  color:#5b9bd5;
+}
+
 .reveal td {
   vertical-align:top;
 }

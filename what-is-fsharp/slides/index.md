@@ -8,7 +8,12 @@
 
 # What is F#?
 
-TODO
+## And why should I care?
+
+<br/><br/><br/>
+### Roman Provazník
+
+[@dzoukr](https://twitter.com/dzoukr) | [fsharping.com](https://fsharping.com)
 
 ***************************************************************************************************
 
@@ -18,7 +23,7 @@ TODO
 
 **Multi**-paradigm
 
-**Strongly** type
+**Strongly** typed
 
 **.NET** ** language
 
@@ -48,7 +53,7 @@ Microsoft Research
 
 ***************************************************************************************************
 
-## #1<br/>It is .NET language
+## #1<br/>It is **.NET** language
 
 -----------------------------------------
 
@@ -56,7 +61,7 @@ Microsoft Research
 
 <img src="images/highfive.jpg"/>
 
-You can call C# code from F# and vice versa
+You can **call C# code from F#** and vice versa
 
 -----------------------------------------
 
@@ -84,7 +89,7 @@ Known issues/fixes
 
 ***************************************************************************************************
 
-## #2<br/>F# is multiplatform
+## #2<br/>F# is **multiplatform**
 
 -----------------------------------------
 
@@ -108,7 +113,7 @@ Visit <a href="http://fable.io">http://fable.io</a>
 
 ***************************************************************************************************
 
-## #3<br/>F# is multiparadigm
+## #3<br/>F# is **multiparadigm**
 
 -----------------------------------------
 
@@ -134,13 +139,13 @@ Visit <a href="http://fable.io">http://fable.io</a>
 
 F# **takes the best** from both paradigms
 
-Use interfaces, abstract classes, inheritance...
+Use **interfaces, abstract classes, inheritance**...
 
-...as well as high-order functions, lambdas, currying and so on.
+...as well as **high-order functions, lambdas, currying** and so on.
 
 ***************************************************************************************************
 
-## #4<br/>F# is easy to write
+## #4<br/>F# is **easy to write**
 
 -----------------------------------------
 
@@ -202,13 +207,13 @@ Read -> Evaluate -> Print -> Loop
 It is **much easier** to write
 
 1. Highlight your code
-2. Press Alt+Enter
+2. Press `Alt+Enter`
 3. See the result
 4. Maybe... convert it to unit test?
 
 ***************************************************************************************************
 
-## #5<br/>F# is easy to read
+## #5<br/>F# is **easy to read**
 
 -----------------------------------------
 
@@ -254,7 +259,7 @@ let add10AndSayHello = add10 >> string >> sayHello
 
 ***************************************************************************************************
 
-## #6<br/>F# embraces safety
+## #6<br/>F# embraces **safety**
 
 -----------------------------------------
 
@@ -320,7 +325,7 @@ Now all you need to do is to implement state transformation
 
 -----------------------------------------
 
-## F# makes illegal states unrepresentable
+## F# makes **illegal states unrepresentable**
 
 -----------------------------------------
 
@@ -328,7 +333,7 @@ Now all you need to do is to implement state transformation
 
 -----------------------------------------
 
-## F# has no NULL
+## F# has **no NULL**
 
 also known as *billion dollar mistake*
 
@@ -366,7 +371,7 @@ let printInt (num:int option) =
 
 ***************************************************************************************************
 
-## #7<br/>F# has amazing community
+## #7<br/>F# has amazing **community**
 
 -----------------------------------------
 
@@ -406,7 +411,7 @@ let printInt (num:int option) =
 
 [FSharp.org](http://fsharp.org) - F# Software foundation
 
-[F# for fun & profit](https://fsharpforfunandprofit.com/) - F# Bible (must read!)
+[F# for fun & profit](https://fsharpforfunandprofit.com/) - F# Bible (**must read!**)
 
 [TryFSharp.org](http://tryfsharp.com/) - online learning tutorials
 
