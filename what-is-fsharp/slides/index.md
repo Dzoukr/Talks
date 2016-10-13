@@ -13,7 +13,7 @@
 <br/><br/><br/>
 ### Roman Provazník
 
-[@dzoukr](https://twitter.com/dzoukr) | [fsharping.com](https://fsharping.com)
+[@dzoukr](https://twitter.com/dzoukr) | [@fsharping](https://twitter.com/fsharping) | [fsharping.com](https://fsharping.com)
 
 ***************************************************************************************************
 
