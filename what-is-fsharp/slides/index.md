@@ -312,7 +312,7 @@ You **cannot screw** what you **cannot change**
 
 ```
 // tennis game designed on 7 rows
-type Points = Zero | Fifteen | Thirty
+type Points = Zero | Fifteen | Thirty | Fourty
 type Player = A | B
 type Game =
     | Score of Points * Points
