@@ -9,10 +9,11 @@
 
 // Git configuration (used for publishing documentation in gh-pages branch)
 // The profile where the project is posted
-let gitOwner = "myGitUser"
+let gitOwner = "Dzoukr"
 let gitHome = "https://github.com/" + gitOwner
 // The name of the project on GitHub
-let gitProjectName = "MyProject"
+let gitProjectName = "Talks"
+let gitSubDir = "what-is-fsharp"
 
 open FsReveal
 open Fake
@@ -142,15 +143,16 @@ Target "KeepRunning" (fun _ ->
 Target "ReleaseSlides" (fun _ ->
     if gitOwner = "myGitUser" || gitProjectName = "MyProject" then
         failwith "You need to specify the gitOwner and gitProjectName in build.fsx"
-    let tempDocsDir = __SOURCE_DIRECTORY__ </> "temp/gh-pages"
+    let tempDocsRoot = __SOURCE_DIRECTORY__ </> "temp/gh-pages"
+    let tempDocsDir = tempDocsRoot </> gitSubDir
     CleanDir tempDocsDir
-    Repository.cloneSingleBranch "" (gitHome + "/" + gitProjectName + ".git") "gh-pages" tempDocsDir
+    Repository.cloneSingleBranch "" (gitHome + "/" + gitProjectName + ".git") "gh-pages" tempDocsRoot
 
     fullclean tempDocsDir
     CopyRecursive outDir tempDocsDir true |> tracefn "%A"
     StageAll tempDocsDir
-    Git.Commit.Commit tempDocsDir "Update generated slides"
-    Branches.push tempDocsDir
+    Git.Commit.Commit tempDocsRoot "Update generated slides"
+    Branches.push tempDocsRoot
 )
 
 "Clean"
