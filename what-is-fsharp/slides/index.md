@@ -316,7 +316,6 @@ type Points = Zero | Fifteen | Thirty | Fourty
 type Player = A | B
 type Game =
     | Score of Points * Points
-    | Deuce
     | Advantage of Player
     | Victory of Player
 ```
