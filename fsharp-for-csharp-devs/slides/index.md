@@ -697,3 +697,27 @@ let divide x y =
 ```
 
 Try-catch is also pattern matching
+
+-----------------------------------------
+
+## Pattern Matching
+
+Keeps your code **clean**
+
+**Improves visibility** of your data flow
+
+**Forces** you to **think** about **all possible** cases
+
+***************************************************************************************************
+
+## Currying
+
+-----------------------------------------
+
+## Currying
+
+Named after mathematician **Haskell Brooks Curry**
+
+Transformation of function with **N parameters**<br/> into **chain** of **N functions** with **1 parameter**
+
+-----------------------------------------
