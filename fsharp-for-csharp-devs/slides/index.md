@@ -592,3 +592,108 @@ Work **great** with other types (even functions!)
 ## Let`s dive even **deeper**!
 
 ***************************************************************************************************
+
+<img src="images/deeper.jpg" style="width:600px;"/>
+
+***************************************************************************************************
+
+## Pattern Matching
+
+-----------------------------------------
+
+## Pattern Matching
+
+Patterns are **rules** for transforming input data. 
+
+They are used to **compare** data with a **logical** structure(s), **decompose** data into constituent **parts**, or **extract** information from data in various ways.
+
+-----------------------------------------
+
+## WAT?
+
+<img src="images/wat.png" style="width:450px;"/>
+
+-----------------------------------------
+
+## Pattern Matching
+
+It is something like **switch**...
+
+...on heavy drugs.
+
+-----------------------------------------
+
+## Pattern Matching
+
+```
+let tupleOne = "Roman", 34
+let tupleTwo = "Pablo", 44
+let tupleThree = "Roman", 36
+
+let trollMe value = 
+    match value with
+    | "Roman", 34   -> printf "Is that you?"
+    | "Roman", _    -> printf "Oh, different Roman"
+    | _, 100        -> printf "You are old as F**K"
+    | name, age     -> printf "You are %s and %i years old" name age
+```
+
+-----------------------------------------
+
+## Pattern Matching
+
+```
+let trollMeSoftly value = 
+    match value with
+    | _, age when age > 100       -> printf "Hey man, you are walking dead!"
+    | name, _ when name = "Ivo"   -> printf "Hi Ivo"
+    | _                           -> printf "Gotcha all!"
+```
+
+Use **when** condition for advanced filtering
+
+-----------------------------------------
+
+## Pattern Matching
+
+```
+type Permissions = Read | Write
+type Access = Anonymous | Authorized of Permissions
+type User = {
+    Login : string
+    Rights: Access
+}
+
+let displayLogin user =
+    match user with
+    | { Login = "Jakub" }       -> "You are good to go, Kubo"
+    | { Rights = Anonymous }    -> "Anonymous access"
+    | { Login = l; Rights = Authorized(perm) } -> 
+        match perm with
+        | Read  -> sprintf "You are %s and you can read only" l
+        | Write  -> sprintf "You are %s and you can write" l
+
+```
+
+Works great with all **F# types** (Records, Discriminated Unions, ...)
+
+-----------------------------------------
+
+## Pattern Matching
+
+```
+let divide x y =
+    try
+        Some(x / y)
+    with
+    | :? System.DivideByZeroException as ex -> 
+        printfn "Catched division by zero %s" ex.Message
+        None
+    | ex when ex.Message.Contains("Needle") -> None // use when
+    | _ -> 
+        printfn "Catched different exception"
+        None
+
+```
+
+Try-catch is also pattern matching
