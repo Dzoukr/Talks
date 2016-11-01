@@ -324,3 +324,271 @@ let tupledAdd (x,y) = x + y
 
 ***************************************************************************************************
 
+## Lists
+
+-----------------------------------------
+
+## Lists
+
+F# list **is not** .NET List class
+
+**Immutable** by default
+
+**Easy** to work with
+
+-----------------------------------------
+
+## Lists
+
+```
+// basics
+let numbers = [0;1;2;3;4;5]
+let strings = ["a";"b";"c"]
+let tuples = [("ahoj",1);("nazdar",2)]
+
+let zeroToTen = [0..10]
+let zeroToHundredByTen = [0..10..100]
+let down = [100..-10..0]
+
+List.length numbers // 6 elements
+List.rev numbers // reverse them
+
+```
+
+-----------------------------------------
+
+## Lists
+
+```
+// join them
+let czGreetings = ["Cau";"Nazdar";"Te pero"]
+let enGreetings = ["Hi"; "Hello"]
+let joined = czGreetings @ enGreetings // join lists
+
+let prepended = "Pocem tak jaka?" :: czGreetings // prepend to list
+```
+
+-----------------------------------------
+
+## Lists
+
+
+```
+// list comprehension
+let generatedEvens = [
+        for i in 1..10 do 
+            if i%2=0 then yield i
+    ]
+
+let differentGen = [ for i = 0 to 10 do yield i]
+```
+
+-----------------------------------------
+
+## Lists
+
+
+```
+let result = 
+    [0..10..100]
+    |> List.filter (fun x -> x > 50)
+    |> List.map ((*) 2)
+    |> List.rev
+    |> List.take 3
+    |> List.skip 1
+
+// result is : int list = [180; 160] 
+```
+
+See module **Microsoft.FSharp.Collections.List**
+
+***************************************************************************************************
+
+## Discriminated Unions
+
+-----------------------------------------
+
+## Discriminated Unions
+
+Value that can be **one** of a number of **named cases**, possibly each with **different** values and types
+
+-----------------------------------------
+
+## Discriminated Unions
+
+```
+type Shape =
+    | Rectangle of width : float * length : float
+    | Circle of radius : float
+    | Prism of width : float * float * height : float
+
+type Size = Small | Medium | Large
+
+type Result = 
+  | Success                // no string needed for success state
+  | ErrorMessage of string // error message needed 
+
+```
+
+-----------------------------------------
+
+## Discriminated Unions
+
+```
+// tennis game designed on 6 rows
+type Points = Zero | Fifteen | Thirty | Fourty
+type Player = A | B
+type Game =
+    | Score of Points * Points
+    | Advantage of Player
+    | Victory of Player
+```
+
+Using Discriminated Unions makes<br/>**illegal states unrepresentable**
+
+
+***************************************************************************************************
+
+## Option
+
+-----------------------------------------
+
+## Do you remember your good old friend **NULL**?
+
+<img src="images/null.gif" style="width:600px;"/>
+
+-----------------------------------------
+
+## F# has **no NULL**
+
+also known as *billion dollar mistake*
+
+-----------------------------------------
+
+## Yeap.
+
+-----------------------------------------
+
+## NO
+
+-----------------------------------------
+
+## NULL!
+
+-----------------------------------------
+
+## No NULL!
+
+<img src="images/indiandance.gif"/>
+
+-----------------------------------------
+
+## No NULL
+
+Use **Option** type instead
+
+```
+let printInt (num:int option) =
+   match num with
+   | Some(n) -> printf "Number was %i" n
+   | None    -> printf "Sorry, no number, go home"
+```
+
+-----------------------------------------
+
+## No NULL
+
+```
+type Option<'a> =         // use a generic definition
+   | Some of 'a           // valid value
+   | None                 // missing
+
+```
+
+Maybe you noticed: Option is built-in **discriminated union**
+
+***************************************************************************************************
+
+## Records
+
+-----------------------------------------
+
+## Records
+
+```
+type Person = {
+    Name : string
+    Surname : string
+    Age : int
+}
+
+let person = { Name = "Roman"; Surname = "Provaznik"; Age = 34 }
+let age = person.Age
+let name = person.Name
+```
+
+Great for storing **contextual** values
+
+-----------------------------------------
+
+## Records
+
+```
+let person = { Name = "Roman"; Surname = "Provaznik"; Age = 34 }
+let person2 = { Name = "Roman"; Surname = "Provaznik"; Age = 34 }
+
+let areEqual = person = person2 // true!
+```
+
+Structural **comparison** and **equality**
+
+-----------------------------------------
+
+## Records
+
+```
+let person = { Name = "Roman"; Surname = "Provaznik"; Age = 34 }
+
+person.Name <- "Mirecek" // just nope!
+```
+
+**Immutable** by default
+
+-----------------------------------------
+
+## Records
+
+```
+let person = { Name = "Roman"; Surname = "Provaznik"; Age = 34 }
+
+let mirecek = { person with Name = "Mirecek"; Surname = "Pospisil" }
+```
+
+But easy to **clone**
+
+-----------------------------------------
+
+## Records
+
+```
+type Role = 
+    | CodeMonkey 
+    | Manager of Employee 
+
+and Employee = {
+    Name : string
+    Role : Role
+    Age: int option
+}
+
+let monkey = { Name = "Roman"; Role = CodeMonkey; Age = Some(34)}
+let manager = { Name = "Jaromir"; Role = Manager(monkey); Age = None}
+```
+
+Work **great** with other types (even functions!)
+
+***************************************************************************************************
+
+## Let`s dive even **deeper**!
+
+***************************************************************************************************
