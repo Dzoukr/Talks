@@ -919,4 +919,15 @@ let (===) str regex =
 
 -----------------------------------------
 
-### ...having **Pattern matching**, **currying**, **partial function** application, **operators** and **NO NULL**!
+### ...having **Pattern matching**, **currying**, **partial function** application, **operators**, no ** NULL** and much **more**!
+
+***************************************************************************************************
+
+# Thank you!
+
+## Feel free to ask
+
+<br/><br/><br/><br/><br/>
+### Roman Provazník
+
+[@dzoukr](https://twitter.com/dzoukr) | [@fsharping](https://twitter.com/fsharping) | [fsharping.com](https://fsharping.com)
