@@ -721,3 +721,202 @@ Named after mathematician **Haskell Brooks Curry**
 Transformation of function with **N parameters**<br/> into **chain** of **N functions** with **1 parameter**
 
 -----------------------------------------
+
+## Currying
+
+```
+//normal version
+let add x y = x + y
+
+//explicitly curried version
+let add x =                   // only one parameter!
+   let subFunction y = x + y  // new function with one param
+   subFunction                // return the subfunction
+
+// lambda version
+let add x = fun y -> y + x
+```
+-----------------------------------------
+
+## What is it good for?
+
+***************************************************************************************************
+
+## Partial function application
+
+-----------------------------------------
+
+## Partial function application
+
+```
+// normal function
+let add x y = y + x
+
+// "bake in" value
+let add10 = add 10
+
+// pass only second parameter
+let result = add10 90
+
+```
+
+-----------------------------------------
+
+## Partial function application
+
+
+```
+
+// build on existing List.filter function
+let filterEvens = List.filter (fun i -> i%2 = 0)
+
+// test
+let evens = filterEvens [1;2;3;4] //[2;4]
+```
+
+**Powerfull** concept
+
+Builds on already **existing** functions
+
+***************************************************************************************************
+
+## Operators
+
+
+-----------------------------------------
+
+## How do we read code in C#?
+
+<img style="height:300px;" src="images/visual_dishonesty.png"/>
+
+<div style="font-size:20px;">
+Source: <a href="http://www.slideshare.net/theburningmonk/7-ineffective-coding-habits-many-f-programmers-dont-have">http://www.slideshare.net/theburningmonk/7-ineffective-coding-habits-many-f-programmers-dont-have</a>
+</div>
+
+-----------------------------------------
+
+## How do we read code in F#?
+
+<img style="height:300px;" src="images/visual_honesty.png"/>
+
+Using F# operators make code **much readable**
+
+<div style="font-size:20px;">
+Source: <a href="http://www.slideshare.net/theburningmonk/7-ineffective-coding-habits-many-f-programmers-dont-have">http://www.slideshare.net/theburningmonk/7-ineffective-coding-habits-many-f-programmers-dont-have</a>
+</div>
+
+-----------------------------------------
+
+## Operators
+
+**|>** Pipe forward
+
+**<|** Pipe backward
+
+**>>** Forward composition
+
+**<<** Backward composition
+
+But there are **much more** of them...
+
+-----------------------------------------
+
+## Pipe forward (|>)
+
+```
+printf "Ahoj"
+"Ahoj" |> printf
+
+[1..20] 
+|> List.filter (fun x -> x > 10)
+|> List.map (fun x -> x + 100)
+|> List.map (fun x -> sprintf "%d is in string now" x)
+|> List.rev
+```
+
+Applies value on the left side as the **last parameter**<br/>to the function on the right side
+
+Pipe forward operator is extremely **common** in F#
+
+-----------------------------------------
+
+## Pipe backward (<|)
+
+```
+printf "%i" 1+2          // error
+printf "%i" (1+2)        // using parens
+printf "%i" <| 1+2       // using reverse pipe
+```
+
+Reduces the need for **parentheses** and makes the code **cleaner**
+
+-----------------------------------------
+
+## Forward composition (>>)
+
+```
+let add1 x = x + 1
+let times2 x = x * 2
+
+// compose them together
+let add1Times2 = add1 >> times2
+```
+
+-----------------------------------------
+
+## Forward composition (>>)
+
+```
+// example with parameters
+let add n x = x + n
+let times n x = x * n
+let add1Times2 = add 1 >> times 2
+let add5Times3 = add 5 >> times 3
+
+// test
+add5Times3 1 // 18
+```
+
+-----------------------------------------
+
+## Backward composition (<<)
+
+```
+// backward composition
+let add x y = x + y
+let times x y = x * y
+let add1Times2 = add 1 >> times 2
+add1Times2 10 // 22
+
+let times2Add1 = add 1 << times 2
+times2Add1 10 // 21 -> used backward composition
+```
+
+-----------------------------------------
+
+## Custom operators
+
+```
+// custom operators
+let (===) str regex = 
+	System.Text.RegularExpressions.Regex.Match(str, regex).Success
+
+"abcd" === "bc" // infix notation (first param before operator)
+"abcd" === "de"
+```
+
+-----------------------------------------
+
+## Cool, right?
+
+<img src="images/cool.jpg" style="width:500px;"/>
+
+***************************************************************************************************
+
+## What we know now?
+
+### F# is **multiparadigm**<br/>**.NET** language, <br/>with **lightweight** syntax, <br/>**type** inference, <br/>and **immutable** data structures...
+
+-----------------------------------------
+
+### ...having **Pattern matching**, **currying**, **partial function** application, **operators** and **NO NULL**!
