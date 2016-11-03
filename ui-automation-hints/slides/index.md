@@ -288,7 +288,7 @@ Build **simple** API<br/>on **existing** tools<br/>with **developers** involved<
 
 # Thank you!
 
-<img src="images/kudrnac.png" style="width:450px;"/>
+<img src="images/fix.png" style="width:550px;"/>
 
 <br/>
 ### Roman Provazník
