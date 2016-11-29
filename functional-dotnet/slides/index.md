@@ -418,14 +418,13 @@ Value that can be **one** of a number of **named cases**, possibly each with **d
 
 ```
 type Shape =
-    | Rectangle of width : float * length : float
-    | Circle of radius : float
-    | Prism of width : float * float * height : float
+    | Rectangle of width:float * length:float
+    | Circle of radius:float
 
 type Size = Small | Medium | Large
 
-type Result = 
-  | Success                // no string needed for success state
+type Result<'a> = 
+  | Success of 'a    // success with value
   | ErrorMessage of string // error message needed 
 
 ```
@@ -491,7 +490,7 @@ Use **Option** type instead
 let printInt (num:int option) =
    match num with
    | Some(n) -> printf "Number was %i" n
-   | None    -> printf "Sorry, no number, go home"
+   | None -> printf "Sorry, no number, go home"
 ```
 
 -----------------------------------------
@@ -559,9 +558,9 @@ person.Name <- "Mirecek" // just nope!
 ## Records
 
 ```
-let person = { Name = "Roman"; Surname = "Provaznik"; Age = 34 }
+let roman = { Name = "Roman"; Surname = "Provaznik"; Age = 34 }
 
-let mirecek = { person with Name = "Mirecek"; Surname = "Pospisil" }
+let jirka = { roman with Name = "Jiri"; Surname = "Krupka" }
 ```
 
 But easy to **clone**
@@ -632,10 +631,10 @@ let tupleThree = "Roman", 36
 
 let trollMe value = 
     match value with
-    | "Roman", 34   -> printf "Is that you?"
-    | "Roman", _    -> printf "Oh, different Roman"
-    | _, 100        -> printf "You are old as F**K"
-    | name, age     -> printf "You are %s and %i years old" name age
+    | "Roman", 34 -> printf "Is that you?"
+    | "Roman", _ -> printf "Oh, different Roman"
+    | _, 100 -> printf "You are old as F**K"
+    | name, age -> printf "You are %s and %i years old" name age
 ```
 
 -----------------------------------------
@@ -645,9 +644,9 @@ let trollMe value =
 ```
 let trollMeSoftly value = 
     match value with
-    | _, age when age > 100       -> printf "Hey man, you are walking dead!"
-    | name, _ when name = "Ivo"   -> printf "Hi Ivo"
-    | _                           -> printf "Gotcha all!"
+    | _, age when age > 100 -> printf "Hey man, you are walking dead!"
+    | name, _ when name = "Ivo" -> printf "Hi Ivo"
+    | _ -> printf "Gotcha all!"
 ```
 
 Use **when** condition for advanced filtering
@@ -666,12 +665,12 @@ type User = {
 
 let displayLogin user =
     match user with
-    | { Login = "Jakub" }       -> "You are good to go, Kubo"
-    | { Rights = Anonymous }    -> "Anonymous access"
+    | { Login = "Jakub" } -> "You are good to go, Kubo"
+    | { Rights = Anonymous } -> "Anonymous access"
     | { Login = l; Rights = Authorized(perm) } -> 
         match perm with
-        | Read  -> sprintf "You are %s and you can read only" l
-        | Write  -> sprintf "You are %s and you can write" l
+        | Read -> sprintf "You are %s and you can read only" l
+        | Write -> sprintf "You are %s and you can write" l
 
 ```
 
