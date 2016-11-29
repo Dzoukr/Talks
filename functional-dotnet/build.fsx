@@ -13,7 +13,7 @@ let gitOwner = "Dzoukr"
 let gitHome = "https://github.com/" + gitOwner
 // The name of the project on GitHub
 let gitProjectName = "Talks"
-let gitSubDir = "fsharp-for-csharp-devs"
+let gitSubDir = "functional-dotnet"
 
 open FsReveal
 open Fake

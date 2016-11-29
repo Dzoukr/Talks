@@ -1,4 +1,4 @@
-- title : F# for C# devs
+﻿- title : Functional .NET
 - description : Introduction to F#
 - author : Roman Provazník
 - theme : night
