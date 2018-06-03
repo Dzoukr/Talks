@@ -1,4 +1,4 @@
-﻿- title : The lazybones
+﻿- title : Event Sourcing with F# and Azure Cosmos DB
 - description : Event Sourcing with F# and Azure Cosmos DB
 - author : Roman Provazník
 - theme : night
@@ -17,10 +17,61 @@
 
 ****************************************************************************
 
-## Ok, I am **lazy**
+## Hello
+
+<table><tr><td class="table-leftcol">
+
+**CN Group** F# Lead Developer
+
+**FSharping** founder
+
+**Terrible** drummer
+
+
+</td><td class="table-rightcol">
+<img width="250" src="images/avatar.jpg" />
+</td></tr></table>
 
 
 ****************************************************************************
+
+## **Event Sourcing** with **F#** and Azure **Cosmos DB** 
+### (why, why not and how)
+
+****************************************************************************
+
+## What is Event Sourcing?
+
+----------------------------------------------------------------------------
+
+Event sourcing persists the **state** of **domain entity** as a **sequence** of state-changing **events**.
+
+or
+
+Storing all the **changes (events)** to the system, rather than just its current **state**.
+
+----------------------------------------------------------------------------
+
+### TL;DR
+
+```fsharp
+
+type EventSourcing = State -> Event -> State
+
+```
+
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+
+
+****************************************************************************
+****************************************************************************
+****************************************************************************
+****************************************************************************
+****************************************************************************
+
+
+
 
 # Thank you!
 
