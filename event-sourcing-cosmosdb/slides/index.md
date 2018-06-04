@@ -285,12 +285,138 @@ type Aggregate<'state, 'command, 'event> = {
 
 Data (events) stored in **Streams**
 
+Events stored as they appeared (**chronologically**)
 
+----------------------------------------------------------------------------
+
+## Event Store Solutions
+
+<table><tr><td class="table-leftcol">
+
+**EventStore.org** - .NET API, HTTP API, Projections
+
+**NEventStore.org** - Persistence agnostic Event Store for .NET
+
+Custom implementation - MongoDB, PostgreSQL, **Cosmos DB**, MSSQL
+
+
+</td><td class="table-rightcol">
+<img src="images/eventstore.png" />
+</td></tr></table>
 
 ****************************************************************************
 
+## Cosmos DB
+
+<table><tr><td class="table-leftcol">
+
+**Globally distributed** DB on Azure
+
+Multiple **APIs** - Document DB, Graph DB, Key-value storage
+
+Really **fast**
+
+**Terrible** pricing (pay for collection)
+
+</td><td class="table-rightcol">
+<img width="250" src="images/cosmosdb_logo.png" />
+</td></tr></table>
+
+----------------------------------------------------------------------------
+
+<img src="images/cosmosdb.png" />
+
+Globally distributed
+
+----------------------------------------------------------------------------
+
+<img width="800" src="images/cosmosdb1.png" />
+
+Built-in JSON editor
+
+----------------------------------------------------------------------------
+
+## Why Cosmos DB
+
+**Azure** was a must
+
+We did not care about pricing - need only 2 collections (Events, Snapshots)
+
+Has support for **stored procedures**, triggers and user defined functions
+
+Wanted to write it by ourselves - we are developers, right? :-)
+
+----------------------------------------------------------------------------
+
+## So we wrote own Event Store
+
+```fsharp
+type EventStore<'a> = {
+    AppendToStream : string -> ExpectedPosition -> EventWrite<'a> 
+        -> Result<EventRead<'a>,EventStoreError>
+    GetEvent : Guid -> Result<EventRead<'a>, EventStoreError>
+    GetStreamEvent : string -> int64 -> Result<EventRead<'a>, EventStoreError>
+    GetStreamEvents : string -> StreamEventsRead 
+        -> Result<EventRead<'a> list, EventStoreError>
+    GetStreams : StreamsRead -> Result<string list, EventStoreError>
+    AppendSnapshot : string -> int64 -> 'a -> Result<Snapshot<'a>, EventStoreError>
+    GetSnapshot : string -> Result<Snapshot<'a> option, EventStoreError>
+}
+```
+
+**Microsoft.Azure.DocumentDB** Nuget
+
+**Only 216** LoC + 45 LoC for Stored Procedure
+
+**Snapshots** support
+
+----------------------------------------------------------------------------
+
+## Lessons learned
+
+<table><tr><td class="table-leftcol">
+
+Use **Stored procedure** (with transaction support) to append events
+
+Use **Unique keys** (generated from Stored procedure) for Optimistic concurrency control
+
+</td><td width="350" class="table-rightcol">
+<img src="images/cosmosdb2.png" />
+</td></tr></table>
+
+----------------------------------------------------------------------------
+
+## Lessons learned
+
+### **Use already existing solution, if you can.** 
+
+*It is fun to write, but pain to maintain.*
+
+****************************************************************************
+
+## Where we are?
+
+We have **Commands & Events**
+
+We have **Domain**
+
+We have **Event Store**
 
 
+
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+
+
+****************************************************************************
+****************************************************************************
+****************************************************************************
+****************************************************************************
+****************************************************************************
+****************************************************************************
+****************************************************************************
+****************************************************************************
 ****************************************************************************
 
 
