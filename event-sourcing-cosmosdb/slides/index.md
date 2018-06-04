@@ -71,6 +71,8 @@ type EventSourcing = State -> Event -> State
 ### Not always **fit** for your system
 (mostly apps constantly resetting state)
 
+### More difficult versioning
+
 ****************************************************************************
 
 ## Why you **should** use Event Sourcing?
@@ -394,7 +396,7 @@ Use **Unique keys** (generated from Stored procedure) for Optimistic concurrency
 
 ****************************************************************************
 
-## Where we are?
+## Where are we?
 
 We have **Commands & Events**
 
@@ -402,24 +404,116 @@ We have **Domain**
 
 We have **Event Store**
 
+We have **C** from **CQRS** complete
 
+****************************************************************************
+
+## Now it is time to prepare **Read (query) side**
 
 ----------------------------------------------------------------------------
+
+## Read side
+
+Designed specially for one purpose - **provide data**
+
+Can be **common SQL** database (with indexes, ...)
+
+Filled based on **events**
+
 ----------------------------------------------------------------------------
+
+## Read side
+
+```fsharp
+
+let handleEventToSql = function
+    | TaskAdded args -> args |> makeSqlInsert
+    | AllTasksCleared -> deleteAll()
+
+```
+
 ----------------------------------------------------------------------------
 
+## Read side - nice parts
+
+You can **design it** based on read needs
+
+You can **change it** anytime and replay events
+
+You can **fill it** on different thread
+
+Read DB failure **does not affect** your domain logic
+
+----------------------------------------------------------------------------
+
+## Read side can be crucial for running **validations** that **cannot be done on domain level**
+
+(checks across various aggregation roots)
 
 ****************************************************************************
-****************************************************************************
-****************************************************************************
-****************************************************************************
-****************************************************************************
-****************************************************************************
-****************************************************************************
-****************************************************************************
+
+## **DEMO**
+
 ****************************************************************************
 
+## Battlefield hints
 
+----------------------------------------------------------------------------
+
+## #1
+## Never store **State in Read DB**
+
+----------------------------------------------------------------------------
+
+## #2
+## **Forget** about Fire-and-Forget
+
+At least return success of Execute function
+
+----------------------------------------------------------------------------
+
+## #3
+## **Never** use **IFs** in Apply
+
+That is why we return Event list
+
+----------------------------------------------------------------------------
+
+## #4
+## **REST** is a lie
+
+POST for commands
+
+GET for queries
+
+----------------------------------------------------------------------------
+
+## #5
+## **No tuples** in Commands / Events arguments
+
+Think about serialization to Event Store
+
+----------------------------------------------------------------------------
+
+## #6
+## **Version (upcast)** old Events in ES -> Domain mapper
+
+```fsharp
+let toEvent (j:JToken) =
+    match j.["name"].Value<string>() with
+    | "TaskAdded" -> j.["data"] |> upcastToV2 | TaskAdded
+    | "TaskAdded_v2" -> j.["data"] |> evn<CmdArgs.AddTask> | TaskAdded
+
+let toData = function
+    | TaskAdded args -> args |> asJToken "TaskAdded"
+
+```
+
+****************************************************************************
+
+<img src="images/event.jpg"/>
+
+****************************************************************************
 
 
 # Thank you!
