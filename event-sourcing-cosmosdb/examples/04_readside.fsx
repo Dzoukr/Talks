@@ -1,4 +1,5 @@
 module EventSourcing.ReadSide
+open EventSourcing
 
 #load "03_commandhandler.fsx"
 
@@ -27,5 +28,8 @@ let handleAll e =
 let handle = CommandHandler.handle >> List.map handleAll
 
 AddTask { Id = 2; Name = "Give cool talk"; DueDate = None } |> handle
+CommandHandler.getCurrentState()
 CompleteTask { Id = 2 } |> handle
 ClearAllTasks |> handle
+
+CommandHandler.InMemoryES.load()

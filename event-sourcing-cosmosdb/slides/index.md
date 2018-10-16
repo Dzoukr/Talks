@@ -40,15 +40,42 @@
 
 ****************************************************************************
 
-## What is Event Sourcing?
+## What is **Event**?
 
 ----------------------------------------------------------------------------
 
-Event sourcing persists the **state** of **domain entity** as a **sequence** of state-changing **events**.
+### Fact that **happened in past** and **cannot** be changed
 
-or
+----------------------------------------------------------------------------
 
-Storing all the **changes (events)** to the system, rather than just its current **state**.
+*Things happended and we can only react on them, but cannot affect them anymore*
+
+<br/>
+
+Email **sent**
+
+Article **published**
+
+File **deleted** 
+
+Temperature **decreased** 
+
+Money **withdrawn**
+
+Anniversary **forgotten**
+
+<br/>
+
+
+*Usually created based on commands or other events*
+
+****************************************************************************
+
+## What is **Event Sourcing**?
+
+----------------------------------------------------------------------------
+
+### Storing all the **changes (events)** to the system, rather than just its current **state**.
 
 ----------------------------------------------------------------------------
 
@@ -66,12 +93,23 @@ type EventSourcing = State -> Event -> State
 
 ----------------------------------------------------------------------------
 
-### Increases SW **complexity**
+Increases SW **complexity**
 
-### Not always **fit** for your system
-(mostly apps constantly resetting state)
+Not always **fit** for your system
 
-### More difficult versioning
+Has own **specific set of issues** (versioning, splitting domain, streams, ...)
+
+----------------------------------------------------------------------------
+
+### Event Sourcing is **not a silver bullet**
+
+<br/>
+
+<img width="590" src="images/bullet.gif" />
+
+<br/>
+
+*sorry :-(*
 
 ****************************************************************************
 
@@ -81,9 +119,11 @@ type EventSourcing = State -> Event -> State
 
 ### **Natural approach** for FP
 
-**Immutable** (append only) storage
+<br/>
 
-Each event leads to **new state**
+Usage of append only (**immutable**) storage
+
+Working with **immutable** structures (events)
 
 You only need **fold** function
 
@@ -103,33 +143,33 @@ said no customer **ever**
 
 ### Customers are **thinking in events**
 
-**Deactivate** user
+<br/>
 
-**Send** an email to supplier
+User to be **deactivated**
 
-**Publish** article
+Email to be **sent** to supplier
+
+Article to be **published**
+
+----------------------------------------------------------------------------
+
+### Focusing on events creates **technology agnostic communication** with customer
 
 ----------------------------------------------------------------------------
 
 ### Focus on **time** aspect 
 
-**When** should this happen?
+<br/>
 
-What if this happen **before** that?
+**When** should this event happen?
 
-----------------------------------------------------------------------------
+What if this event happen **before** that?
 
-### Focus on **behavior**
-
-**What** instead of how
-
-a.k.a.
-
-**Declarative** over imperative
+How should system react **after** some event happens?
 
 ----------------------------------------------------------------------------
 
-### **Thinking in events** is mindset for **all industries**
+### **Thinking in events** is mindset<br/> for **all industries**
 
 ----------------------------------------------------------------------------
 
@@ -140,21 +180,28 @@ a.k.a.
 
 [<Test>]
 let ``Cannot withdraw from blocked account`` () =
-    let state = { Amount = 500; IsBlocked = true }
-    Withdraw 100 |> execute state |> Assert.isError
+    let stateBeforeEvent = { Amount = 500; IsBlocked = true }
+    Withdraw 100 |> execute stateBeforeEvent |> Assert.isError
 ```
 
 ----------------------------------------------------------------------------
 
-### Event sourcing is **SAFE**
+### Event sourcing is **safe**
 
 ----------------------------------------------------------------------------
 
-You can **replay** all events
+You can **replay** all events to create new projections
 
 You can **prove system state** at any point in **history**
 
 You have **full audit log** elevated to single source of truth
+
+----------------------------------------------------------------------------
+
+### But remember - **not a silver bullet!**
+
+<img src="images/es-joke.jpg"/>
+
 
 ****************************************************************************
 
@@ -162,10 +209,20 @@ You have **full audit log** elevated to single source of truth
 
 ----------------------------------------------------------------------------
 
+### !!! Warning !!!
+
+<br/>
+
+Highly **opinionated** approach (one of hundreds)
+
+Mixing **CQRS & ES** terms
+
+----------------------------------------------------------------------------
+
 ### You will need **Commands**
 
 ```fsharp
-type Comand = 
+type Command = 
     | AddTask of CmdArgs.AddTask
     | RemoveTask of CmdArgs.RemoveTask
     | ClearAllTasks
@@ -173,7 +230,7 @@ type Comand =
     | ChangeTaskDueDate of CmdArgs.ChangeTaskDueDate
 ```
 
-Something you want your system to execute
+Something you want your system to **execute**
 
 ----------------------------------------------------------------------------
 
@@ -188,7 +245,7 @@ type Event =
     | TaskDueDateChanged of CmdArgs.ChangeTaskDueDate
 ```
 
-Things that happend based on your commands
+Things that happend **based on your commands**
 
 ----------------------------------------------------------------------------
 
@@ -207,6 +264,8 @@ type State = {
 }
 ```
 
+*Used for validation of commands and internal state representation*
+
 ----------------------------------------------------------------------------
 
 ### and something called **Aggregate**
@@ -215,7 +274,7 @@ type State = {
 
 **Execute** - function converting command to list of events
 
-**Apply** - applies single event on state to create new state
+**Apply** - function for applying single event on state to create new state
 
 ----------------------------------------------------------------------------
 
@@ -246,6 +305,8 @@ let execute state = function
 
 Can throw error or return events in Result
 
+Validates command against internal state
+
 ----------------------------------------------------------------------------
 
 ### Apply
@@ -262,11 +323,11 @@ let apply state = function
         { state with Tasks = newTask :: state.Tasks}
 ```
 
-Never throwns errors
+Never throwns errors - only **applies** event on current state
 
 ----------------------------------------------------------------------------
 
-### Aggregate
+### Aggregate (as simple F# record)
 
 ```fsharp
 type Aggregate<'state, 'command, 'event> = {
@@ -338,13 +399,19 @@ Built-in JSON editor
 
 ----------------------------------------------------------------------------
 
-## Why Cosmos DB
+<img width="650" src="images/cosmosdb-emulator.png" />
+
+Free emulator available
+
+----------------------------------------------------------------------------
+
+## Why Cosmos DB?
 
 **Azure** was a must
 
-We did not care about pricing - need only 2 collections (Events, Snapshots)
+We did not care about pricing - need only 1 collections (Events)
 
-Has support for **stored procedures**, triggers and user defined functions
+Has support for **stored procedures**, **triggers** and user defined **functions**
 
 Wanted to write it by ourselves - we are developers, right? :-)
 
@@ -353,24 +420,22 @@ Wanted to write it by ourselves - we are developers, right? :-)
 ## So we wrote own Event Store
 
 ```fsharp
-type EventStore<'a> = {
-    AppendToStream : string -> ExpectedPosition -> EventWrite<'a> 
-        -> Result<EventRead<'a>,EventStoreError>
-    GetEvent : Guid -> Result<EventRead<'a>, EventStoreError>
-    GetStreamEvent : string -> int64 -> Result<EventRead<'a>, EventStoreError>
-    GetStreamEvents : string -> StreamEventsRead 
-        -> Result<EventRead<'a> list, EventStoreError>
-    GetStreams : StreamsRead -> Result<string list, EventStoreError>
-    AppendSnapshot : string -> int64 -> 'a -> Result<Snapshot<'a>, EventStoreError>
-    GetSnapshot : string -> Result<Snapshot<'a> option, EventStoreError>
+type EventStore = {
+    AppendEvent : 
+        string -> ExpectedPosition -> EventWrite -> Task<EventRead>
+    AppendEvents : 
+        string -> ExpectedPosition -> EventWrite list -> Task<EventRead list>
+    GetEvent : string -> int64 -> Task<EventRead>
+    GetEvents : string -> EventsReadRange -> Task<EventRead list>
+    GetStreams : StreamsReadFilter -> Task<Stream list>
 }
 ```
 
-**Microsoft.Azure.DocumentDB** Nuget
+Available as **CosmoStore** Nuget (also on Github)
 
-**Only 216** LoC + 45 LoC for Stored Procedure
+**Only 289** LoC + 86 LoC for Stored Procedure
 
-**Snapshots** support
+**Cosmos DB** support (Azure Table Storage planned for version 1.2)
 
 ----------------------------------------------------------------------------
 
@@ -380,7 +445,7 @@ type EventStore<'a> = {
 
 Use **Stored procedure** (with transaction support) to append events
 
-Use **Unique keys** (generated from Stored procedure) for Optimistic concurrency control
+Use **Unique keys** for Optimistic concurrency control
 
 </td><td width="350" class="table-rightcol">
 <img src="images/cosmosdb2.png" />
@@ -408,7 +473,7 @@ We have **C** from **CQRS** complete
 
 ****************************************************************************
 
-## Now it is time to prepare **Read (query) side**
+## Now it is time to prepare **Read (Query) side**
 
 ----------------------------------------------------------------------------
 
@@ -446,9 +511,10 @@ Read DB failure **does not affect** your domain logic
 
 ----------------------------------------------------------------------------
 
-## Read side can be crucial for running **validations** that **cannot be done on domain level**
+## Read side - ugly parts
 
-(checks across various aggregation roots)
+Still  **eventually consistent**
+
 
 ****************************************************************************
 
@@ -463,59 +529,53 @@ Read DB failure **does not affect** your domain logic
 ## #1
 ## Never store **State in Read DB**
 
+*React on events, not on state*
+
 ----------------------------------------------------------------------------
 
 ## #2
 ## **Forget** about Fire-and-Forget
 
-At least return success of Execute function
+*At least return success of Execute function*
 
 ----------------------------------------------------------------------------
 
 ## #3
 ## **Never** use **IFs** in Apply
 
-That is why we return Event list
+*That is why we return Event list*
 
 ----------------------------------------------------------------------------
 
 ## #4
 ## **REST** is a lie
 
-POST for commands
-
-GET for queries
+*POST for commands, GET for queries*
 
 ----------------------------------------------------------------------------
 
 ## #5
-## **No tuples** in Commands / Events arguments
+## **No tuples** in Commands or Events arguments
 
-Think about serialization to Event Store
+*Think about serialization to Event Store*
 
 ----------------------------------------------------------------------------
 
 ## #6
-## **Version (upcast)** old Events in ES -> Domain mapper
+## **Think twice** before you use read side for command validation
 
-```fsharp
-let toEvent (j:JToken) =
-    match j.["name"].Value<string>() with
-    | "TaskAdded" -> j.["data"] |> upcastToV2 | TaskAdded
-    | "TaskAdded_v2" -> j.["data"] |> evn<CmdArgs.AddTask> | TaskAdded
+*Think about eventual consistency*
 
-let toData = function
-    | TaskAdded args -> args |> asJToken "TaskAdded"
+----------------------------------------------------------------------------
 
-```
+## #7
+## **Choose wisely** event arguments
+
+*You will live with your decision longer than you think*
 
 ****************************************************************************
 
 <img src="images/event.jpg"/>
-
-****************************************************************************
-
-<img src="images/lambdup.png"/>
 
 ****************************************************************************
 
