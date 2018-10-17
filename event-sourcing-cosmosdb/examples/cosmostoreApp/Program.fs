@@ -3,14 +3,28 @@
 open System
 open Domain
 
+// simple function composing command handler + event handlers together
+let pipeline cmd =
+    cmd
+    |> CommandHandler.handle
+    |> List.iter ReadSide.handle
+
+let printState (desc:string) = CommandHandler.getCurrentState() |> printfn "[%s] %A" (desc.ToUpper())
+
 [<EntryPoint>]
 let main argv =
 
-    AddTask { Id = 2; Name = "Give cool talk"; DueDate = None } |> ReadSide.handle |> ignore
-    CompleteTask { Id = 2 } |> ReadSide.handle |> ignore
-    let stateBeforeClear = CommandHandler.getCurrentState()
+    printState "Initial"
 
-    ClearAllTasks  |> ReadSide.handle |> ignore
+    AddTask { Id = 2; Name = "Give cool talk"; DueDate = None } |> pipeline
+    
+    printState "After task added"
 
-    let stateAfterClear = CommandHandler.getCurrentState()
+    CompleteTask { Id = 2 } |> pipeline
+    
+    printState "After task completed"
+
+    ClearAllTasks  |> pipeline
+    
+    printState "After clear"
     0

@@ -23,7 +23,7 @@ module CmdArgs =
         DueDate : DateTime option
     }
 
-type Comand = 
+type Command = 
     | AddTask of CmdArgs.AddTask
     | RemoveTask of CmdArgs.RemoveTask
     | ClearAllTasks

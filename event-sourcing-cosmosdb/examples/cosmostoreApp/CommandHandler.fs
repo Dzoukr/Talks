@@ -4,11 +4,6 @@ open System
 open Domain
 open Aggregate
 
-module InMemoryES =
-    let private journal = ResizeArray<Event>()
-    let store evns = evns |> List.iter journal.Add
-    let load () = journal |> Seq.toList
-
 module CosmosDBStore = 
     open Newtonsoft.Json.Linq
     open CosmoStore

@@ -352,6 +352,14 @@ Events stored as they appeared (**chronologically**)
 
 ----------------------------------------------------------------------------
 
+## Streams
+
+<img width="700" style="border: none;" src="images/stream.png"/>
+
+Correct splitting into streams is **crucial** for successful event sourcing
+
+----------------------------------------------------------------------------
+
 ## Event Store Solutions
 
 <table><tr><td class="table-leftcol">
@@ -379,6 +387,8 @@ Multiple **APIs** - Document DB, Graph DB, Key-value storage
 
 Really **fast**
 
+Various **consistency models**
+
 **Terrible** pricing (pay for collection)
 
 </td><td class="table-rightcol">
@@ -399,25 +409,33 @@ Built-in JSON editor
 
 ----------------------------------------------------------------------------
 
+<img src="images/changefeedoverview.png" />
+
+Change feed for subscribing for new events
+
+----------------------------------------------------------------------------
+
 <img width="650" src="images/cosmosdb-emulator.png" />
 
 Free emulator available
 
 ----------------------------------------------------------------------------
 
-## Why Cosmos DB?
+## Choose **Cosmos DB** when...
 
-**Azure** was a must
+<br/>
 
-We did not care about pricing - need only 1 collections (Events)
+**Azure** is a must
 
-Has support for **stored procedures**, **triggers** and user defined **functions**
+You are ok with **pricing**
 
-Wanted to write it by ourselves - we are developers, right? :-)
+Need support for **stored procedures**, **triggers** and user defined **functions**
+
+You like new things - we are developers, right? :-)
 
 ----------------------------------------------------------------------------
 
-## So we wrote own Event Store
+## F# library available
 
 ```fsharp
 type EventStore = {
@@ -431,25 +449,11 @@ type EventStore = {
 }
 ```
 
-Available as **CosmoStore** Nuget (also on Github)
+Available as **CosmoStore** Nuget (open source on Github)
 
 **Only 289** LoC + 86 LoC for Stored Procedure
 
-**Cosmos DB** support (Azure Table Storage planned for version 1.2)
-
-----------------------------------------------------------------------------
-
-## Lessons learned
-
-<table><tr><td class="table-leftcol">
-
-Use **Stored procedure** (with transaction support) to append events
-
-Use **Unique keys** for Optimistic concurrency control
-
-</td><td width="350" class="table-rightcol">
-<img src="images/cosmosdb2.png" />
-</td></tr></table>
+**Cosmos DB** support (Azure **Table Storage planned** for version 1.2)
 
 ----------------------------------------------------------------------------
 
@@ -458,6 +462,22 @@ Use **Unique keys** for Optimistic concurrency control
 ### **Use already existing solution, if you can.** 
 
 *It is fun to write, but pain to maintain.*
+
+----------------------------------------------------------------------------
+
+## If you really need to write own Event Store
+
+<table><tr><td class="table-leftcol">
+
+Use **Stored procedure** (with transaction support) to append events
+
+Use **Unique keys** for Optimistic concurrency control)
+
+Use **Stream identificator** as Partition key
+
+</td><td width="350" class="table-rightcol">
+<img src="images/cosmosdb2.png" />
+</td></tr></table>
 
 ****************************************************************************
 
