@@ -135,12 +135,6 @@ You only need **fold** function
 
 ----------------------------------------------------------------------------
 
-> "I want you to create application which will use React UI to make UPDATE command into table Users and set column IsActive to false."
-
-said no customer **ever**
-
-----------------------------------------------------------------------------
-
 ### Customers are **thinking in events**
 
 <br/>
@@ -180,8 +174,9 @@ How should system react **after** some event happens?
 
 [<Test>]
 let ``Cannot withdraw from blocked account`` () =
-    let stateBeforeEvent = { Amount = 500; IsBlocked = true }
-    Withdraw 100 |> execute stateBeforeEvent |> Assert.isError
+    let stateBeforeEvent = { Amount = 500; IsBlocked = false }
+    let expectedState = { stateBeforeEvent with Amount = 400 }
+    Withdrawn 100 |> apply stateBeforeEvent |> equals expectedState
 ```
 
 ----------------------------------------------------------------------------
@@ -202,7 +197,6 @@ You have **full audit log** elevated to single source of truth
 
 <img src="images/es-joke.jpg"/>
 
-
 ****************************************************************************
 
 ## How to start
@@ -219,37 +213,7 @@ Mixing **CQRS & ES** terms
 
 ----------------------------------------------------------------------------
 
-### You will need **Commands**
-
-```fsharp
-type Command = 
-    | AddTask of CmdArgs.AddTask
-    | RemoveTask of CmdArgs.RemoveTask
-    | ClearAllTasks
-    | CompleteTask of CmdArgs.CompleteTask
-    | ChangeTaskDueDate of CmdArgs.ChangeTaskDueDate
-```
-
-Something you want your system to **execute**
-
-----------------------------------------------------------------------------
-
-### and some **Events**
-
-```fsharp
-type Event =
-    | TaskAdded of CmdArgs.AddTask
-    | TaskRemoved of CmdArgs.RemoveTask
-    | AllTasksCleared
-    | TaskCompleted of CmdArgs.CompleteTask
-    | TaskDueDateChanged of CmdArgs.ChangeTaskDueDate
-```
-
-Things that happend **based on your commands**
-
-----------------------------------------------------------------------------
-
-### and your **Domain (State)**
+### You will start with **Domain (State)**
 
 ```fsharp
 type Task = {
@@ -264,21 +228,13 @@ type State = {
 }
 ```
 
+<br/>
+
 *Used for validation of commands and internal state representation*
 
 ----------------------------------------------------------------------------
 
-### and something called **Aggregate**
-
-**Init** - default / empty state
-
-**Execute** - function converting command to list of events
-
-**Apply** - function for applying single event on state to create new state
-
-----------------------------------------------------------------------------
-
-### Init
+### with **Init (default)** value
 
 ```fsharp
 type State = {
@@ -291,28 +247,74 @@ type State = {
 
 ```
 
+<br/>
+
+*State used as initial before applying events on it*
+
 ----------------------------------------------------------------------------
 
-### Execute
+### then you will need **Commands**
 
 ```fsharp
-let execute state = function
+type Command = 
+    | AddTask of CmdArgs.AddTask
+    | RemoveTask of CmdArgs.RemoveTask
+    | ClearAllTasks
+    | CompleteTask of CmdArgs.CompleteTask
+    | ChangeTaskDueDate of CmdArgs.ChangeTaskDueDate
+```
+
+<br/>
+
+Something you want your system to **execute**
+
+----------------------------------------------------------------------------
+
+### and function for such **execution**
+
+```fsharp
+let execute state command = 
+    match command with
     | AddTask args -> 
         args.Id 
         |> onlyIfTaskDoesNotAlreadyExist state 
         |> (fun _ -> TaskAdded args)
 ```
 
-Can throw error or return events in Result
+<br/>
+
+Can throw exception or Result
 
 Validates command against internal state
 
+Returns **list of Events** on success
+
 ----------------------------------------------------------------------------
 
-### Apply
+### Events
 
 ```fsharp
-let apply state = function
+type Event =
+    | TaskAdded of CmdArgs.AddTask
+    | TaskRemoved of CmdArgs.RemoveTask
+    | AllTasksCleared
+    | TaskCompleted of CmdArgs.CompleteTask
+    | TaskDueDateChanged of CmdArgs.ChangeTaskDueDate
+```
+
+<br/>
+
+Facts that happened **based on your commands**
+
+Affect state (are **applied** on state)
+
+----------------------------------------------------------------------------
+
+### function for **applying** events on state
+
+```fsharp
+let apply state event = 
+    match event with
     | TaskAdded args -> 
         let newTask = { 
             Id = args.Id
@@ -323,11 +325,13 @@ let apply state = function
         { state with Tasks = newTask :: state.Tasks}
 ```
 
+<br/>
+
 Never throwns errors - only **applies** event on current state
 
 ----------------------------------------------------------------------------
 
-### Aggregate (as simple F# record)
+### Explained as simple generic F# record
 
 ```fsharp
 type Aggregate<'state, 'command, 'event> = {
@@ -391,6 +395,8 @@ Various **consistency models**
 
 **Terrible** pricing (pay for collection)
 
+Support for **stored procedures**, **triggers** and user defined **functions**
+
 </td><td class="table-rightcol">
 <img width="250" src="images/cosmosdb_logo.png" />
 </td></tr></table>
@@ -421,63 +427,21 @@ Free emulator available
 
 ----------------------------------------------------------------------------
 
-## Choose **Cosmos DB** when...
-
-<br/>
-
-**Azure** is a must
-
-You are ok with **pricing**
-
-Need support for **stored procedures**, **triggers** and user defined **functions**
-
-You like new things - we are developers, right? :-)
-
-----------------------------------------------------------------------------
-
-## F# library available
-
-```fsharp
-type EventStore = {
-    AppendEvent : 
-        string -> ExpectedPosition -> EventWrite -> Task<EventRead>
-    AppendEvents : 
-        string -> ExpectedPosition -> EventWrite list -> Task<EventRead list>
-    GetEvent : string -> int64 -> Task<EventRead>
-    GetEvents : string -> EventsReadRange -> Task<EventRead list>
-    GetStreams : StreamsReadFilter -> Task<Stream list>
-}
-```
-
-Available as **CosmoStore** Nuget (open source on Github)
-
-**Only 289** LoC + 86 LoC for Stored Procedure
-
-**Cosmos DB** support (Azure **Table Storage planned** for version 1.2)
-
-----------------------------------------------------------------------------
-
-## Lessons learned
-
-### **Use already existing solution, if you can.** 
-
-*It is fun to write, but pain to maintain.*
-
-----------------------------------------------------------------------------
-
-## If you really need to write own Event Store
+## Announcing F# library for Event Store - **CosmoStore**
 
 <table><tr><td class="table-leftcol">
 
-Use **Stored procedure** (with transaction support) to append events
+Available on **Nuget** (open source on Github)
 
-Use **Unique keys** for Optimistic concurrency control)
+Support for **Azure Cosmos DB** and **Azure Table Storage**
 
-Use **Stream identificator** as Partition key
+Optimistic concurrency support
 
-</td><td width="350" class="table-rightcol">
-<img src="images/cosmosdb2.png" />
+</td><td class="table-rightcol">
+<img width="250" src="images/cosmostore.png" />
 </td></tr></table>
+
+[https://github.com/Dzoukr/CosmoStore](https://github.com/Dzoukr/CosmoStore)
 
 ****************************************************************************
 
@@ -511,7 +475,8 @@ Filled based on **events**
 
 ```fsharp
 
-let handleEventToSql = function
+let handleEventToSql event = 
+    match event with
     | TaskAdded args -> args |> makeSqlInsert
     | AllTasksCleared -> deleteAll()
 
@@ -535,7 +500,6 @@ Read DB failure **does not affect** your domain logic
 
 Still  **eventually consistent**
 
-
 ****************************************************************************
 
 ## **DEMO**
@@ -554,41 +518,27 @@ Still  **eventually consistent**
 ----------------------------------------------------------------------------
 
 ## #2
-## **Forget** about Fire-and-Forget
-
-*At least return success of Execute function*
-
-----------------------------------------------------------------------------
-
-## #3
 ## **Never** use **IFs** in Apply
 
 *That is why we return Event list*
 
 ----------------------------------------------------------------------------
 
-## #4
-## **REST** is a lie
-
-*POST for commands, GET for queries*
-
-----------------------------------------------------------------------------
-
-## #5
+## #3
 ## **No tuples** in Commands or Events arguments
 
 *Think about serialization to Event Store*
 
 ----------------------------------------------------------------------------
 
-## #6
+## #4
 ## **Think twice** before you use read side for command validation
 
 *Think about eventual consistency*
 
 ----------------------------------------------------------------------------
 
-## #7
+## #5
 ## **Choose wisely** event arguments
 
 *You will live with your decision longer than you think*
@@ -607,4 +557,3 @@ Still  **eventually consistent**
 ### Roman Provazník
 
 [@rprovaznik](https://twitter.com/rprovaznik) | [@fsharping](https://twitter.com/fsharping) | [fsharping.com](https://fsharping.com)
-

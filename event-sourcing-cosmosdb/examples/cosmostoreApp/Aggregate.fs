@@ -27,14 +27,16 @@ let onlyIfNotAlreadyFinished (task:Task) =
     | false -> task
 
 
-let execute state = function
+let execute state command = 
+    match command with
     | AddTask args -> args.Id |> onlyIfTaskDoesNotAlreadyExist state |> (fun _ -> TaskAdded args)
     | RemoveTask args -> args.Id |> onlyIfTaskExists state |> (fun _ -> TaskRemoved args)
     | ClearAllTasks -> AllTasksCleared
     | CompleteTask args -> args.Id |> onlyIfTaskExists state |> (fun _ -> TaskCompleted args)
     | ChangeTaskDueDate args -> args.Id |> (onlyIfTaskExists state >> onlyIfNotAlreadyFinished) |> (fun _ -> TaskDueDateChanged args)
 
-let apply state = function
+let apply state event = 
+    match event with
     | TaskAdded args -> 
         let newTask = { Id = args.Id; Name = args.Name; DueDate = args.DueDate; IsComplete = false}
         { state with Tasks = newTask :: state.Tasks}
