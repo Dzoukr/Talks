@@ -42,7 +42,6 @@ module CosmosDBStore =
         |> Async.RunSynchronously
         |> List.map (fun x -> toDomainEvent (x.Name, x.Data))
 
-//let getCurrentState () = InMemoryES.load() |> List.fold aggregate.Apply State.Init
 let getCurrentState () = CosmosDBStore.load() |> List.fold aggregate.Apply State.Init
 
 let validate cmd =

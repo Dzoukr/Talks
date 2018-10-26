@@ -97,7 +97,7 @@ Increases SW **complexity**
 
 Not always **fit** for your system
 
-Has own **specific set of issues** (versioning, splitting domain, streams, ...)
+Has own **specific set of issues** (versioning, splitting domain, sagas, ...)
 
 ----------------------------------------------------------------------------
 
