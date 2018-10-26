@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CosmoStore" Version="1.1.1" />
+    <PackageReference Include="CosmoStore" Version="1.1.2" />
   </ItemGroup>
 
 </Project>

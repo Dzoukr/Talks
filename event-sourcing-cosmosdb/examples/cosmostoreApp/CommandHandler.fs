@@ -3,10 +3,10 @@
 open System
 open Domain
 open Aggregate
+open CosmoStore
 
-module CosmosDBStore = 
+module Mapping = 
     open Newtonsoft.Json.Linq
-    open CosmoStore
 
     let toStoredEvent evn = 
         match evn with
@@ -24,25 +24,43 @@ module CosmosDBStore =
         | "TaskCompleted", args -> args |> CosmosDb.Serialization.objectFromJToken |> TaskCompleted 
         | "TaskDueDateChanged", args -> args |> CosmosDb.Serialization.objectFromJToken |> TaskDueDateChanged 
 
+type DemoStore = {
+    GetCurrentState : unit -> State
+    Append : Event list -> unit
+}
 
-    let private configuration = CosmosDb.Configuration.CreateDefault (System.Uri "https://localhost:8081") "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw=="
-    let private client = CosmosDb.EventStore.getEventStore configuration
-    let store evns =
+type StorageType =
+    | CosmosDb of CosmoStore.CosmosDb.Configuration
+    | TableStorage of CosmoStore.TableStorage.Configuration
+
+let createDemoStore typ =
+
+    let store = 
+        match typ with
+        | CosmosDb cfg -> cfg |> CosmoStore.CosmosDb.EventStore.getEventStore
+        | TableStorage cfg -> cfg |> CosmoStore.TableStorage.EventStore.getEventStore
+    
+    let getCurrentState () =
+        store.GetEvents "Tasks" EventsReadRange.AllEvents
+        |> Async.AwaitTask
+        |> Async.RunSynchronously
+        |> List.map (fun x -> Mapping.toDomainEvent (x.Name, x.Data))
+        |> List.fold aggregate.Apply State.Init
+
+    let append evns =
         evns 
-        |> List.map toStoredEvent
+        |> List.map Mapping.toStoredEvent
         |> List.map (fun (name,data) -> { Id = Guid.NewGuid(); CorrelationId = Guid.NewGuid(); Name = name; Data = data; Metadata = None })
-        |> client.AppendEvents "Tasks" ExpectedPosition.Any
+        |> store.AppendEvents "Tasks" ExpectedPosition.Any
         |> Async.AwaitTask
         |> Async.RunSynchronously
-        |> ignore
-     
-    let load() =
-        client.GetEvents "Tasks" EventsReadRange.AllEvents
-        |> Async.AwaitTask
-        |> Async.RunSynchronously
-        |> List.map (fun x -> toDomainEvent (x.Name, x.Data))
+        |> ignore 
 
-let getCurrentState () = CosmosDBStore.load() |> List.fold aggregate.Apply State.Init
+    {
+        GetCurrentState = getCurrentState
+        Append = append
+    }
+
 
 let validate cmd =
     match cmd with
@@ -50,14 +68,17 @@ let validate cmd =
     | ChangeTaskDueDate args -> if args.DueDate.IsSome && args.DueDate.Value < DateTime.Now then failwith "Are you Marty McFly?!" else cmd
     | _ -> cmd
 
-let handleCommand command = 
+let handleCommand (store:DemoStore) command = 
     // get the latest state from store
-    let currentState = getCurrentState()
+    let currentState = store.GetCurrentState()
     // execute command to get new events
     let newEvents = command |> aggregate.Execute currentState
     // store events to event store
-    newEvents |> CosmosDBStore.store
+    newEvents |> store.Append
     // return events
     newEvents
 
-let handle = validate >> handleCommand
+let handle store cmd = 
+    cmd 
+    |> validate 
+    |> handleCommand store
