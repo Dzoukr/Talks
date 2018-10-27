@@ -173,7 +173,7 @@ How should system react **after** some event happens?
 ```fsharp
 
 [<Test>]
-let ``Cannot withdraw from blocked account`` () =
+let ``Withdraw decreases account balance`` () =
     let stateBeforeEvent = { Amount = 500; IsBlocked = false }
     let expectedState = { stateBeforeEvent with Amount = 400 }
     Withdrawn 100 |> apply stateBeforeEvent |> equals expectedState
