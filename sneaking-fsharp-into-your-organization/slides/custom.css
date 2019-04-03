@@ -1,0 +1,32 @@
+/* @import url(http://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900);
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600); */
+
+@import url("http://fonts.googleapis.com/css?family=Nunito+Sans");
+
+.reveal h1,.reveal h2, .reveal h3, .reveal a, .reveal p {
+    /* font-family: "Nunito Sans"; */
+}
+
+.reveal h1 {
+    /* font-weight: bolder; */
+}
+
+.reveal strong {
+    
+}
+
+.left-col {
+    display: table-column;
+    float: left;
+    width: 50%;
+    text-align: center;
+    vertical-align: top;
+}
+
+.right-col {
+    display: table-column;
+    float: right;
+    width: 50%;
+    text-align: center;
+    vertical-align: top;
+}
