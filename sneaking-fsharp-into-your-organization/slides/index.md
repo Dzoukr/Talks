@@ -37,6 +37,23 @@ Ex-C# developer
 ## About me
 
 <div class="left-col">
+    <img src="images/roman.jpg" style="height: 300px" />
+</div>
+<div class="right-col">
+
+I am not Roman Sachse
+
+<p class="fragment">
+    Totally different Roman
+</p>
+
+</div>
+
+-------
+
+## About me
+
+<div class="left-col">
     <img src="images/profile.png" style="height: 300px" />
 </div>
 <div class="right-col">
@@ -68,7 +85,7 @@ Customers from UAE, United Kingdom, Sweden, Germany, Denmark, Finland...
 
 -------
 
-# Then I got some bad news for you
+# Then I got some warnings for you
 
 *******
 
@@ -187,7 +204,7 @@ Your current competitor can be your future employer
 
 *******
 
-# Now it is time to educate your boss
+# Now it is time to sell it to your boss
 
 *******
 
@@ -199,6 +216,21 @@ Request to be "the F# person" of your company...
 
 ...and be ready to give your career in stakes
 
+*******
+
+beat the boss picture here
+
+*******
+
+# Game Over, right?
+
+-------
+
+Nope
+
+-------
+
+sorry mario picture here
 
 *******
 
@@ -206,17 +238,9 @@ Request to be "the F# person" of your company...
 
 *******
 
-# It is done, right?
+## Now even harder journey begins
 
 -------
-
-Nope
-
-*******
-
-## Now Sales department is your new best friend
-
-*******
 
 ## Educate customers
 
@@ -226,9 +250,23 @@ Newsletters
 
 Lightning talks in office
 
-*******
+-------
 
-# You are also travelling F# salesman now
+## Now Sales department is your new best friend
+
+fotka zde
+
+-------
+
+## ...and the most important
+
+-------
+
+# Your first major F# project must be success
+
+-------
+
+# Then you WIN!
 
 
 
