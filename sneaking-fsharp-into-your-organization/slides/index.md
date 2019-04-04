@@ -6,7 +6,7 @@
 
 ******
 
-# Sneaking **F#**<br/> into your organization #
+# Sneaking F#<br/> into your organization #
 
 <div style="margin-top:150px">
     <h3>Roman Provazník</h3>
@@ -18,54 +18,48 @@
 
 ## About me
 
-<div class="left-col">
-    <img src="images/profile.png" style="height: 300px" />
-</div>
-<div class="right-col">
+<table><tr><td>
+<img src="images/profile.png" style="max-width: 300px" />
+</td><td>
 
-
-F# lead developer in CN Group (Prague, CZ)
+F# lead developer in CN Group<br/> (Prague, CZ)
 
 FSharping meetup group founder
 
 Ex-C# developer
 
-</div>
+</td></tr></table>
 
 -------
 
-## About me
+## I am not that Roman
 
-<div class="left-col">
-    <img src="images/roman.jpg" style="height: 300px" />
-</div>
-<div class="right-col">
+<img src="images/roman.jpg" style="max-width: 300px" />
 
-I am not Roman Sachse
 
 <p class="fragment">
-    Totally different Roman
+    Totally <strong>different Roman</strong>
 </p>
-
-</div>
 
 -------
 
-## About me
+## F# in CN Group
 
-<div class="left-col">
-    <img src="images/profile.png" style="height: 300px" />
-</div>
-<div class="right-col">
+<table><tr><td>
+<img src="images/fsharp-logo.png" style="max-width: 300px" />
+</td><td>
 
+Started as **single** F# developer with **no customers**
 
-Started as single F# developer with no customers
-
-Now with 5 full-time F# developers 
+Now with **5 full-time F# developers**
 
 Customers from UAE, United Kingdom, Sweden, Germany, Denmark, Finland...
 
-</div>
+</td></tr></table>
+
+-------
+
+<img src="images/hireme.png" style="max-height: 600px;">
 
 *******
 
@@ -89,15 +83,15 @@ Customers from UAE, United Kingdom, Sweden, Germany, Denmark, Finland...
 
 *******
 
-##  It's not going to happen over night
+##  It's **not** going to happen<br/> over night
 
 <p class="fragment">
-    It took me 14 months to get strategic project for F#
+    It took me <strong>14 months</strong> to get strategic project for F#
 </p>
 
 -------
 
-## F# was, is, and always will be .NET language number 2
+## F# was, is, and always will be .NET language **number 2**
 
 <p class="fragment">
     Sorry...
@@ -106,23 +100,28 @@ Customers from UAE, United Kingdom, Sweden, Germany, Denmark, Finland...
 
 -------
 
-## Problem with F# is not really technical
+## Problem with F# is **not** really technical
 
 -------
 
-## It is all about Marketing...
+## It is all about marketing...
 
 *******
 
-# ... and you are in Marketing now
+# ... and you are in marketing now
 
-<p class="fragment">Less coding</p>
-<p class="fragment">More talking</p>
-<p class="fragment">A lot of strong promises</p>
+<p class="fragment"><strong>Less</strong> coding</p>
+<p class="fragment"><strong>More</strong> talking</p>
+<p class="fragment"><strong>A lot</strong> of strong promises</p>
+
+*******
+- data-background:images/noooo.gif
+
+# SORRY
 
 *******
 
-## Step #1 - Educate colleagues
+## Step #1 - **Educate** colleagues
 
 Show them F#
 
@@ -132,25 +131,26 @@ Get their attention
 
 -------
 
-## Never troll them!!!
+<img src="images/kuba_ndc.jpg" style="max-height: 550px;" />
 
-Don't be "you're doing it wrong" guy (a.k.a jerk)
+*C#er being converted to rainbow F# path of happiness*
+
+-------
+
+## **Never** troll them!!!
+
+Don't be "you're doing it wrong" guy
 
 Don't question their code, tools, metodology
 
 Negative approach leads nowhere
 
--------
+You want them to be your future F#ers, not enemies!
 
-## Be kind!
-
-<p class="fragment">Help</p>
-<p class="fragment">Advice</p>
-<p class="fragment">Educate</p>
 
 *******
 
-## Step #2 - Seek for internal opportunities
+## Step #2 - **Seek** for internal opportunities
 
 Internal projects
 
@@ -158,45 +158,101 @@ QA department
 
 -------
 
+## Internal projects
+
+<img src="images/attendance.jpg" style="max-height: 450px;">
+
+Attendance system, REST APIs, surveys, ...
+
+-------
+
 ## QA is gold mine of opportunity!
 
 <br/>
 
-Always understaffed
+<p class="fragment">Always <strong>understaffed</strong></p>
+<p class="fragment">Always <strong>hungry</strong> for smart solutions</p>
+<p class="fragment">Always <strong>grateful</strong> for help</p>
 
-Always hungry for smart solutions 
+-------
 
-UI Automation, data generators, infrastructure
+## QA as **F# trojan horse**
+
+<table><tr><td>
+<img src="images/canopy.jpg" style="max-width: 300px" />
+</td><td>
+
+UI Automation (Canopy)
+
+Data cleanup (FSharp.Data)
+
+Infrastructure (FAKE)
+
+</td></tr></table>
+
+-------
+
+<img src="images/trojan.jpg" style="max-height: 600px;">
 
 *******
 
-## Step #3 - Publicize your success
+## Step #3 - **Publicize** your success
 
 Tweets
 
 Success stories on meetups
 
-Whatever you did (if it still breaths) is AWESOME - no fake modesty!
+Whatever you did is **AWESOME** - no fake modesty!
+
+-------
+
+<img src="images/yobo.png" style="max-height: 450px;">
+
+Lame app for wife? **AWESOME!**
 
 *******
 
-## Step #4 - Attend F# meetups
+## Step #4 - **Attend** F# meetups
 
 If it doesn't exist - establish one!
 
-Give talks
+**Give talks**
 
-Talk to attendees (they are the influencers in their companies)
+Talk to attendees (they are the **influencers** in their companies)
+
+-------
+
+<img src="images/meetup_people.jpeg" style="max-height: 450px;">
+
+Prague FSharpers
 
 *******
 
-## Step #5 - Educate competitors
+## Step #5 - **Educate** competitors
 
 Reply to .NET job offerings
 
-Teach them: .NET is not only C#
+Teach them: **.NET is not only C#**
 
-Your current competitor can be your future employer
+Your current competitor can be your **future employer**
+
+-------
+
+<img src="images/not-fsharp.png" style="max-height: 450px;">
+
+*C# only sorry*
+
+-------
+
+<img src="images/not-fsharp3.png" style="max-height: 450px;">
+
+*Not now, sorry*
+
+-------
+
+<img src="images/not-fsharp2.png" style="max-height: 450px;">
+
+*We got some F# prototypes, but C# only for now*
 
 *******
 
@@ -206,19 +262,23 @@ Your current competitor can be your future employer
 
 # Now it is time to sell it to your boss
 
-*******
+-------
 
-Show all your work
+## The Boss
 
-Use all dirty tricks (LoC metrics, Less bugs)
+<table><tr><td style="min-width: 400px;">
+<img src="images/finalboss.gif"  />
+</td><td>
 
-Request to be "the F# person" of your company...
+Show **all** your (AWESOME) work
 
-...and be ready to give your career in stakes
+Use all **dirty tricks** (LoC metrics, Less bugs)
 
-*******
+Request to be "**the F# pioneer**" of your company...
 
-beat the boss picture here
+</td></tr></table>
+
+...and be ready to **stake on** your career
 
 *******
 
@@ -230,19 +290,15 @@ Nope
 
 -------
 
-sorry mario picture here
+<img src="images/thankyou.png" style="max-height: 450px;">
 
 *******
 
-# LEVEL UP!
-
-*******
-
-## Now even harder journey begins
+## Now even **harder** journey begins
 
 -------
 
-## Educate customers
+## **Educate** customers (a.k.a. sell)
 
 Partnership conferences
 
@@ -252,9 +308,15 @@ Lightning talks in office
 
 -------
 
-## Now Sales department is your new best friend
+## Educate customers
 
-fotka zde
+<img src="images/bratislava.jpg" style="max-height: 450px;">
+
+**F# at Partnership conference** in Bratislava (Slovakia)
+
+-------
+
+## Sales department is your new **best friend**
 
 -------
 
@@ -262,11 +324,23 @@ fotka zde
 
 -------
 
-# Your first major F# project must be success
+# Your first major F# project **must be success**
 
 -------
 
 # Then you WIN!
 
+<p class="fragment">for now...</p>
 
+******
+
+# Thank you
+
+<div style="margin-top:150px">
+    <h3>Roman Provazník</h3>
+</div>
+
+[@rprovaznik](https://twitter.com/rprovaznik) | [@fsharping](https://twitter.com/fsharping) | [fsharping.com](https://fsharping.com)
+
+*******
 

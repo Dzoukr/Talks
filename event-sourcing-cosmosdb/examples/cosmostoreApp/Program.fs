@@ -8,8 +8,8 @@ let cosmosDbCfg = CosmoStore.CosmosDb.Configuration.CreateDefault
 
 let tableStorageCfg = CosmoStore.TableStorage.Configuration.CreateDefaultForLocalEmulator ()
 
-let demoStore = CommandHandler.createDemoStore (CommandHandler.StorageType.CosmosDb cosmosDbCfg)
-//let demoStore = CommandHandler.createDemoStore (CommandHandler.StorageType.TableStorage tableStorageCfg)
+//let demoStore = CommandHandler.createDemoStore (CommandHandler.StorageType.CosmosDb cosmosDbCfg)
+let demoStore = CommandHandler.createDemoStore (CommandHandler.StorageType.TableStorage tableStorageCfg)
 
 // simple function composing command handler + event handlers together
 let pipeline cmd =
