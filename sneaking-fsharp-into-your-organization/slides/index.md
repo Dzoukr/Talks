@@ -324,7 +324,7 @@ Lightning talks in office
 
 -------
 
-# Your first major F# project **must be success**
+# Your first major F# project must be success
 
 -------
 
