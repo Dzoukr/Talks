@@ -304,7 +304,7 @@ Partnership conferences
 
 Newsletters
 
-Lightning talks in office
+Smalltalks in office
 
 -------
 
