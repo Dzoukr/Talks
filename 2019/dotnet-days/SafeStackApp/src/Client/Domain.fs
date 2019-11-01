@@ -17,6 +17,7 @@ open Shared.Domain
 type Model = {
     IsAddingNew : bool
     NewColumnName : string
+    NewItemNames : (string * string) list
     Columns : Column list
 }
 
@@ -26,4 +27,7 @@ type Msg =
     | TextEdited of string
     | AddNewColumn
     | RemoveColumn of string
-    | AddItemToColumn of column:string * item:string
+    | ItemTextEdited of columnName:string * itemName:string
+    | AddItemToColumn of columnName:string
+    | RemoveItemFromColumn of columnName:string * itemName:string
+    | CompleteItem of columnName:string * itemName:string

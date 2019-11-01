@@ -71,16 +71,57 @@ let private icon (className:string) = Html.span [ prop.className "icon"; prop.ch
 //        ]
 //     ]
 
-let colToView dispatch (col:Shared.Domain.Column) =
-    let addOnlyIfCanBeAdded value =
-        if value |> Shared.Validation.canAddItem col.Items then
-            (col.Name, value) |> AddItemToColumn |> dispatch
+let colToView dispatch names (col:Shared.Domain.Column) =
+
+    let currentColumnItemValue =
+        names
+        |> List.tryFind (fun (x,_) -> x = col.Name)
+        |> Option.map snd
+        |> Option.defaultValue ""
 
     let itemToView (i:Item) =
+        let styles =
+            match i.Status with
+            | New -> [ style.marginLeft 10 ]
+            | Completed _ -> [ style.marginLeft 10; style.textDecoration.lineThrough; style.fontStyle.italic ]
+        let text =
+            match i.Status with
+            | New -> i.Name
+            | Completed date -> sprintf "%s - completed on %s" i.Name (date.ToShortDateString())
+
+
         Html.li [
-            prop.text i.Name
+            Html.div [
+                prop.className "box"
+                prop.children [
+                    Html.button [
+                        prop.className "button is-danger is-small"
+                        prop.children [
+                            icon "fas fa-minus"
+                        ]
+                        prop.onClick (fun _ -> RemoveItemFromColumn(col.Name, i.Name) |> dispatch)
+                    ]
+                    Html.button [
+                        prop.className "button is-success is-small"
+                        prop.children [
+                            icon "fas fa-check"
+                        ]
+                        prop.style [
+                            style.marginLeft 5
+                        ]
+                        prop.onClick (fun _ -> CompleteItem(col.Name, i.Name) |> dispatch)
+                        prop.disabled (Shared.Validation.canCompleteItem col.Items i.Name |> not)
+                    ]
+                    Html.span [
+                        prop.text text
+                        prop.style styles
+                    ]
+                ]
+            ]
         ]
+
     let items = col.Items |> List.sortBy (fun x -> x.Name) |> List.map itemToView
+
     column [
         Html.div [
             prop.children [
@@ -89,10 +130,33 @@ let colToView dispatch (col:Shared.Domain.Column) =
                     prop.className [true,"delete"; not (Shared.Validation.canDeleteColumn col), "is-hidden"]
                     prop.onClick (fun _ -> col.Name |> RemoveColumn |> dispatch)
                 ]
-                Html.input [
-                    prop.className "input"
-                    prop.placeholder "Add task"
-                    prop.onBlur (fun e -> !!e.target?value |> addOnlyIfCanBeAdded)
+
+                Html.div [
+                    prop.className "field is-grouped"
+                    prop.children [
+                        Html.p [
+                            prop.className "control is-expanded"
+                            prop.children [
+                                Html.input [
+                                    prop.className "input"
+                                    prop.placeholder "Add task"
+                                    prop.value currentColumnItemValue
+                                    prop.onTextChange (fun t -> ItemTextEdited(col.Name, t) |> dispatch )
+                                ]
+                            ]
+                        ]
+                        Html.p [
+                            prop.className "control"
+                            prop.children [
+                                Html.button [
+                                    prop.className "button is-info"
+                                    prop.text "Add"
+                                    prop.onClick (fun _ -> col.Name |> AddItemToColumn |> dispatch)
+                                    prop.disabled (Shared.Validation.canAddItem col.Items currentColumnItemValue |> not)
+                                ]
+                            ]
+                        ]
+                    ]
                 ]
                 Html.ul [
                     prop.children items
@@ -105,7 +169,7 @@ let view (model : Model) (dispatch : Msg -> unit) =
     let data =
         model.Columns
         |> List.sortBy (fun x -> x.Name)
-        |> List.map (colToView dispatch)
+        |> List.map (colToView dispatch model.NewItemNames)
 
     Html.div [
         navbarTitle "Stafe Stack App"

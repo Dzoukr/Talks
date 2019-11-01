@@ -1,4 +1,5 @@
 module Shared.Domain
+open System
 
 type Counter = { Value : int }
 
@@ -9,8 +10,13 @@ module Route =
 type ServerAPI =
     { initialCounter : unit -> Async<int> }
 
+type ItemStatus =
+    | New
+    | Completed of DateTime
+
 type Item = {
     Name : string
+    Status : ItemStatus
 }
 
 type Column = {
