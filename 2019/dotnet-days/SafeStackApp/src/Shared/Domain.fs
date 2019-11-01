@@ -1,14 +1,13 @@
 module Shared.Domain
 open System
 
-type Counter = { Value : int }
-
 module Route =
     let builder typeName methodName =
         sprintf "/api/%s/%s" typeName methodName
 
-type ServerAPI =
-    { initialCounter : unit -> Async<int> }
+type ServerCountAPI = {
+    GetRandomCount : unit -> Async<int>
+}
 
 type ItemStatus =
     | New
@@ -22,4 +21,11 @@ type Item = {
 type Column = {
     Name : string
     Items : Item list
+}
+
+type ServerColumnsAPI = {
+    AddColumn : string -> Async<unit>
+    RemoveColumn : string -> Async<unit>
+    AddItemToColumn : string * string -> Async<unit>
+    GetAll : unit -> Async<Column list>
 }

@@ -3,7 +3,12 @@
 open Fable.Remoting.Client
 open Shared.Domain
 
-let api : ServerAPI =
+let countAPI : ServerCountAPI =
     Remoting.createApi()
     |> Remoting.withRouteBuilder Route.builder
-    |> Remoting.buildProxy<ServerAPI>
+    |> Remoting.buildProxy<ServerCountAPI>
+
+let columnsAPI : ServerColumnsAPI =
+    Remoting.createApi()
+    |> Remoting.withRouteBuilder Route.builder
+    |> Remoting.buildProxy<ServerColumnsAPI>

@@ -23,7 +23,7 @@ type Model = {
 
 type Msg =
     | StartEditing
-    | StopEditing
+    | CancelEditing
     | TextEdited of string
     | AddNewColumn
     | RemoveColumn of string
@@ -31,3 +31,6 @@ type Msg =
     | AddItemToColumn of columnName:string
     | RemoveItemFromColumn of columnName:string * itemName:string
     | CompleteItem of columnName:string * itemName:string
+    | ReloadColumnsFromServer
+    | ColumnsReloadedFromServer of Column list
+    | ErrorOccured of exn

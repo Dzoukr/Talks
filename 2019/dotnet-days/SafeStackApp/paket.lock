@@ -704,6 +704,10 @@ STORAGE: NONE
 RESTRICTION: == netstandard2.0
 NUGET
   remote: https://api.nuget.org/v3/index.json
+    Elmish.SweetAlert (3.2)
+      Fable.Core (>= 3.0)
+      Fable.Elmish (>= 3.0)
+      FSharp.Core (>= 4.6.2)
     Fable.Browser.Blob (1.1)
       Fable.Core (>= 3.0)
       FSharp.Core (>= 4.6.2)

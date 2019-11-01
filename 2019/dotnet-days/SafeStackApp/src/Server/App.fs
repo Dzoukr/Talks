@@ -1,3 +1,5 @@
+module Server.App
+
 open System
 open System.IO
 open Microsoft.AspNetCore
@@ -13,16 +15,31 @@ open Fable.Remoting.Giraffe
 
 let publicPath = Path.GetFullPath "../Client/public"
 
-let counterApi = {
-    initialCounter = fun () -> async { return System.Random().Next(1,1000) }
+let countAPI = {
+    GetRandomCount = fun () -> async { return System.Random().Next(1,1000) }
 }
 
-let webApp =
+let countAPIHandler =
     Remoting.createApi()
     |> Remoting.withRouteBuilder Route.builder
-    |> Remoting.fromValue counterApi
+    |> Remoting.fromValue countAPI
     |> Remoting.buildHttpHandler
 
+let columnsAPI = {
+    AddColumn = fun name -> async { return ColumnsManager.addColumn name }
+    RemoveColumn = fun name -> async { return ColumnsManager.removeColumn name }
+    AddItemToColumn = fun (col,item) -> async { return ColumnsManager.addItemToColumn col item }
+    GetAll = fun _ -> async { return ColumnsManager.getAll () }
+}
+
+let columnsAPIHandler =
+    Remoting.createApi()
+    |> Remoting.withRouteBuilder Route.builder
+    |> Remoting.fromValue columnsAPI
+    |> Remoting.withErrorHandler (fun ex _ -> Propagate ex.Message)
+    |> Remoting.buildHttpHandler
+
+let webApp = choose [ countAPIHandler; columnsAPIHandler ]
 
 let configureApp (app : IApplicationBuilder) =
     app.UseDefaultFiles()

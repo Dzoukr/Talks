@@ -6,3 +6,4 @@ group Client
     Fable.Elmish.HMR
     Fable.Remoting.Client
     Feliz
+    Elmish.SweetAlert

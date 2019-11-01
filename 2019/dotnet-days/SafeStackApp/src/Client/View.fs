@@ -209,7 +209,7 @@ let view (model : Model) (dispatch : Msg -> unit) =
                                                 Html.button [
                                                     prop.className "button is-warning"
                                                     prop.text "Cancel"
-                                                    prop.onClick (fun _ -> dispatch StopEditing)
+                                                    prop.onClick (fun _ -> dispatch CancelEditing)
                                                 ]
                                             ]
                                         ]
