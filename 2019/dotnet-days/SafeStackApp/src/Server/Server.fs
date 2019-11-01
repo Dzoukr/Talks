@@ -14,15 +14,10 @@ open Shared
 open Fable.Remoting.Server
 open Fable.Remoting.Giraffe
 
-let tryGetEnv = System.Environment.GetEnvironmentVariable >> function null | "" -> None | x -> Some x
-
 let publicPath = Path.GetFullPath "../Client/public"
-let port =
-    "SERVER_PORT"
-    |> tryGetEnv |> Option.map uint16 |> Option.defaultValue 8085us
 
 let counterApi = {
-    initialCounter = fun () -> async { return { Value = 42 } }
+    initialCounter = fun () -> async { return System.Random().Next(1,1000) }
 }
 
 let webApp =
@@ -46,6 +41,6 @@ WebHost
     .UseContentRoot(publicPath)
     .Configure(Action<IApplicationBuilder> configureApp)
     .ConfigureServices(configureServices)
-    .UseUrls("http://0.0.0.0:" + port.ToString() + "/")
+    .UseUrls("http://0.0.0.0:8085/")
     .Build()
     .Run()

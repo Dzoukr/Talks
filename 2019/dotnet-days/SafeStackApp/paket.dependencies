@@ -23,7 +23,6 @@ group Client
     nuget Fable.Remoting.Client
     nuget Fable.SimpleJson
     nuget Feliz
-    nuget Fulma ~> 2
 
 group Build
     source https://api.nuget.org/v3/index.json

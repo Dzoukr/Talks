@@ -5,5 +5,4 @@ group Client
     Fable.Elmish.React
     Fable.Elmish.HMR
     Fable.Remoting.Client
-    Fulma
     Feliz

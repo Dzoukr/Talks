@@ -13,5 +13,12 @@ $FontPathOpenSans: "~open-sans-fonts/open-sans";
 $family-primary: 'Open Sans';
 
 // Bulma
-@import "~bulma/bulma";
+@import "~bulma";
 
+.navbar-item {
+    h2 {
+        @extend .title;
+        @extend .is-2;
+        color: $white;
+    }
+}
