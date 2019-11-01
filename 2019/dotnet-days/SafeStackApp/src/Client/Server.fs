@@ -1,9 +1,9 @@
 ﻿module Client.Server
 
 open Fable.Remoting.Client
-open Shared
+open Shared.Domain
 
-let api : ICounterApi =
+let api : ServerAPI =
     Remoting.createApi()
     |> Remoting.withRouteBuilder Route.builder
-    |> Remoting.buildProxy<ICounterApi>
+    |> Remoting.buildProxy<ServerAPI>

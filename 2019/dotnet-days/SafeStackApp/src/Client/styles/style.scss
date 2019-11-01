@@ -22,3 +22,10 @@ $family-primary: 'Open Sans';
         color: $white;
     }
 }
+
+label {
+    font-weight: bold;
+}
+.delete {
+    margin-left: 0.5rem;
+}

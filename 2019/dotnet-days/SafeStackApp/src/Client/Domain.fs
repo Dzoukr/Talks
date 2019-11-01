@@ -1,14 +1,29 @@
 ﻿module Client.Domain
 
-open Shared
+open Shared.Domain
+
+//type Model = {
+//    Counter: int
+//    IsLoading : bool
+//
+//}
+//
+//type Msg =
+//    | Increment
+//    | Decrement
+//    | LoadFromServer
+//    | CountLoadedFromServer of int
 
 type Model = {
-    Counter: int
-    IsLoading : bool
+    IsAddingNew : bool
+    NewColumnName : string
+    Columns : Column list
 }
 
 type Msg =
-    | Increment
-    | Decrement
-    | LoadFromServer
-    | CountLoadedFromServer of int
+    | StartEditing
+    | StopEditing
+    | TextEdited of string
+    | AddNewColumn
+    | RemoveColumn of string
+    | AddItemToColumn of column:string * item:string
