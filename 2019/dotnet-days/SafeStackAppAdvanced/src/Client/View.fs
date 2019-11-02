@@ -35,7 +35,7 @@ module Helpers =
 
     let inTemplate controls =
         Html.div [
-            navbarTitle "Stafe Stack App"
+            navbarTitle "SAFE Stack App"
             section [
                 container [
                     columns controls
