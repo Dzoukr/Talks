@@ -15,16 +15,6 @@ open Fable.Remoting.Giraffe
 
 let publicPath = Path.GetFullPath "../Client/public"
 
-let countAPI = {
-    GetRandomCount = fun () -> async { return System.Random().Next(1,1000) }
-}
-
-let countAPIHandler =
-    Remoting.createApi()
-    |> Remoting.withRouteBuilder Route.builder
-    |> Remoting.fromValue countAPI
-    |> Remoting.buildHttpHandler
-
 let columnsAPI = {
     AddColumn = fun name -> async { return ColumnsManager.addColumn name }
     RemoveColumn = fun name -> async { return ColumnsManager.removeColumn name }
@@ -41,12 +31,10 @@ let columnsAPIHandler =
     |> Remoting.withErrorHandler (fun ex _ -> Propagate ex.Message)
     |> Remoting.buildHttpHandler
 
-let webApp = choose [ countAPIHandler; columnsAPIHandler ]
-
 let configureApp (app : IApplicationBuilder) =
     app.UseDefaultFiles()
        .UseStaticFiles()
-       .UseGiraffe webApp
+       .UseGiraffe columnsAPIHandler
 
 let configureServices (services : IServiceCollection) =
     services.AddGiraffe() |> ignore

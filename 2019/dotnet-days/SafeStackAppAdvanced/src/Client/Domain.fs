@@ -2,18 +2,6 @@
 
 open Shared.Domain
 
-//type Model = {
-//    Counter: int
-//    IsLoading : bool
-//
-//}
-//
-//type Msg =
-//    | Increment
-//    | Decrement
-//    | LoadFromServer
-//    | CountLoadedFromServer of int
-
 type Model = {
     IsAddingNew : bool
     NewColumnName : string
