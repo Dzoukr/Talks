@@ -29,7 +29,7 @@ let update (msg : Msg) (currentModel : Model) : Model * Cmd<Msg> =
         { currentModel with NewItemNames = (col,v) :: texts }, Cmd.none
     | AddItemToColumn colName ->
         let found,others = currentModel.NewItemNames |> List.partition (fun (c,_) -> c = colName)
-        let itemName = found |> List.head |> snd
+        let itemName = found |> List.tryHead |> Option.map snd |> Option.defaultValue ""
         { currentModel with NewItemNames = others }, Cmd.OfAsync.either
                                                          Server.columnsAPI.AddItemToColumn
                                                          (colName, itemName)
