@@ -37,9 +37,6 @@ module Helpers =
             navbarTitle "Stafe Stack App"
             section [
                 container controls
-//                container [
-//                    columns controls
-//                ]
             ]
         ]
 
