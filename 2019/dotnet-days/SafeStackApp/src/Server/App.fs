@@ -29,6 +29,8 @@ let columnsAPI = {
     AddColumn = fun name -> async { return ColumnsManager.addColumn name }
     RemoveColumn = fun name -> async { return ColumnsManager.removeColumn name }
     AddItemToColumn = fun (col,item) -> async { return ColumnsManager.addItemToColumn col item }
+    RemoveItemFromColumn = fun (col,item) -> async { return ColumnsManager.removeItemFromColumn col item }
+    CompleteItem = fun (col,item) -> async { return ColumnsManager.completeItem col item }
     GetAll = fun _ -> async { return ColumnsManager.getAll () }
 }
 

@@ -54,15 +54,18 @@ let update (msg : Msg) (currentModel : Model) : Model * Cmd<Msg> =
                                                          (colName, itemName)
                                                          (fun _ -> ReloadColumnsFromServer)
                                                          ErrorOccured
-//    | RemoveItemFromColumn (colName,item) ->
-//        let newCols = Data.removeItem currentModel.Columns colName item
-//        { currentModel with Columns = newCols }, Cmd.none
-//    | CompleteItem (colName,item) ->
-//        let foundItem = Data.getItem currentModel.Columns colName item
-//        let newCols =
-//            { foundItem with Status = Completed(DateTime.UtcNow) }
-//            |> Data.replaceItem currentModel.Columns colName
-//        { currentModel with Columns = newCols }, Cmd.none
+    | RemoveItemFromColumn (colName,itemName) ->
+        currentModel, Cmd.OfAsync.either
+                         Server.columnsAPI.RemoveItemFromColumn
+                         (colName, itemName)
+                         (fun _ -> ReloadColumnsFromServer)
+                         ErrorOccured
+    | CompleteItem (colName,itemName) ->
+        currentModel, Cmd.OfAsync.either
+                         Server.columnsAPI.CompleteItem
+                         (colName, itemName)
+                         (fun _ -> ReloadColumnsFromServer)
+                         ErrorOccured
     | ReloadColumnsFromServer ->
         currentModel, Cmd.OfAsync.either Server.columnsAPI.GetAll () ColumnsReloadedFromServer ErrorOccured
     | ColumnsReloadedFromServer cols ->
@@ -77,5 +80,3 @@ let update (msg : Msg) (currentModel : Model) : Model * Cmd<Msg> =
             | _ -> e.Message
         let alert = SimpleAlert(alertMsg).Type(AlertType.Error)
         currentModel, SweetAlert.Run(alert)
-
-

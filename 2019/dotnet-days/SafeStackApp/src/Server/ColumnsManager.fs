@@ -1,5 +1,6 @@
 ﻿module Server.ColumnsManager
 
+open System
 open Shared.Domain
 
 let private storage = ResizeArray<Column>()
@@ -25,3 +26,16 @@ let addItemToColumn columnName itemName =
         let item = { Name = itemName; Status = New }
         storage.Add({ toReplace with Items = item :: toReplace.Items})
     else failwith "Sorry, this item cannot be added"
+
+let removeItemFromColumn columnName itemName =
+    let toReplace = getAll() |> List.find (fun x -> x.Name = columnName)
+    storage.Remove(toReplace) |> ignore
+    let withoutItem = toReplace.Items |> List.filter (fun x -> x.Name <> itemName)
+    storage.Add({ toReplace with Items = withoutItem })
+
+let completeItem columnName itemName =
+    let toReplace = getAll() |> List.find (fun x -> x.Name = columnName)
+    storage.Remove(toReplace) |> ignore
+    let item,others = toReplace.Items |> List.partition (fun x -> x.Name = itemName)
+    let toAdd = item |> List.head |> (fun x -> { x with Status = Completed(DateTime.UtcNow) })
+    storage.Add({ toReplace with Items = toAdd :: others })

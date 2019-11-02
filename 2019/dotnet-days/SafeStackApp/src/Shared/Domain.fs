@@ -27,5 +27,7 @@ type ServerColumnsAPI = {
     AddColumn : string -> Async<unit>
     RemoveColumn : string -> Async<unit>
     AddItemToColumn : string * string -> Async<unit>
+    RemoveItemFromColumn : string * string -> Async<unit>
+    CompleteItem : string * string -> Async<unit>
     GetAll : unit -> Async<Column list>
 }
