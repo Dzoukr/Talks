@@ -1,0 +1,9 @@
+group Client
+    FSharp.Core
+    Fable.Core
+    Fable.Elmish.Debugger
+    Fable.Elmish.React
+    Fable.Elmish.HMR
+    Fable.Remoting.Client
+    Feliz
+    Elmish.SweetAlert
